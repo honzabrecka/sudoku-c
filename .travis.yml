@@ -5,4 +5,4 @@ before_script:
  - npm install -g node-gyp
 script:
  - node-gyp configure build
- - cd test && gcc test.c ../src/sudoku_c.c -o test.out && ./test.out
+ - cd test && gcc test.c -o test.out && ./test.out

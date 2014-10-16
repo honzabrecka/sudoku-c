@@ -1,0 +1,27 @@
+{
+  "name": "sudoku-c",
+  "version": "0.0.1",
+  "description": "As fast as possible sudoku solver and generator using the backtracking algorithm. It's a native node.js extension written in C.",
+  "author": "Jan Břečka <jan.brecka@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "node-gyp build"
+  },
+  "keywords": [
+    "sudoku",
+    "solver",
+    "generator",
+    "puzzle",
+    "game",
+    "native",
+    "extension"
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:honzabrecka/sudoku-c.git"
+  },
+  "engines": {
+    "node": ">=0.10"
+  }
+}

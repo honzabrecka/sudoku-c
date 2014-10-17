@@ -23,5 +23,9 @@
   },
   "engines": {
     "node": ">=0.10"
+  },
+  "devDependencies":
+  {
+    "gulp-mocha": "1.1.*"
   }
 }

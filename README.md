@@ -1,4 +1,4 @@
-# sudoku-c [![Build Status](https://travis-ci.org/honzabrecka/sudoku-c.svg?branch=master)](https://travis-ci.org/honzabrecka/sudoku-c)
+# sudoku-c [![Build Status](https://travis-ci.org/honzabrecka/sudoku-c.svg?branch=master)](https://travis-ci.org/honzabrecka/sudoku-c) [![Coverage Status](https://img.shields.io/coveralls/honzabrecka/sudoku-c.svg)](https://coveralls.io/r/honzabrecka/sudoku-c?branch=master)
 
 As fast as possible sudoku solver and generator using the backtracking algorithm. It's a native node.js extension written in C.
 

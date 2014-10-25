@@ -11,4 +11,4 @@ script:
  - mocha test.js
 after_script:
  - gcov test.c
- - cd .. && coveralls -n --gcov test/sudoku_c.c.gcov
+ - cd .. && coveralls -n --gcov test/sudoku_c.c.gcov -e benchmark -e src/sudoku.cpp -e test/test.c

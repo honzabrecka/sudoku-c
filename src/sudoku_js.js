@@ -23,25 +23,25 @@ sudoku.generate = function()
 
 sudoku.solve = function(grid)
 {
-    var index = this._findEmptyCell(grid);
+  var index = this._findEmptyCell(grid);
 
-    if (index == -1) {
+  if (index == -1) {
+    return true;
+  }
+
+  for (var i = 1; i <= 9; i++) {
+    if (this._isPossible(grid, index, i)) {
+      grid[index] = i;
+
+      if (this.solve(grid)) {
         return true;
+      }
+
+      grid[index] = 0;
     }
+  }
 
-    for (var i = 1; i <= 9; i++) {
-        if (this._isPossible(grid, index, i)) {
-            grid[index] = i;
-
-            if (this.solve(grid)) {
-                return true;
-            }
-
-            grid[index] = 0;
-        }
-    }
-
-    return false;
+  return false;
 };
 
 /** @private */
@@ -92,38 +92,38 @@ sudoku._generate = function(grid)
 /** @private */
 sudoku._findEmptyCell = function(grid)
 {
-    var gridLength = grid.length;
+  var gridLength = grid.length;
 
-    for (var i = 0; i < gridLength; i++) {
-        if (grid[i] === 0) {
-            return i;
-        }
+  for (var i = 0; i < gridLength; i++) {
+    if (grid[i] === 0) {
+      return i;
     }
+  }
 
-    return -1;
+  return -1;
 };
 
 /** @private */
 sudoku._isPossible = function(grid, index, value)
 {
-    var x = Math.floor(index % 9);
-    var y = Math.floor(index / 9);
-    var squareX = x - (x % 3);
-    var squareY = y - (y % 3);
+  var x = Math.floor(index % 9);
+  var y = Math.floor(index / 9);
+  var squareX = x - (x % 3);
+  var squareY = y - (y % 3);
 
-    for (var i = 0; i < 9; i++) {
-        if (this._getAt(grid, i, y) == value ||
-            this._getAt(grid, x, i) == value ||
-            this._getAt(grid, squareX + Math.floor(i % 3), squareY + Math.floor(i / 3)) == value) {
-            return false;
-        }
+  for (var i = 0; i < 9; i++) {
+    if (this._getAt(grid, i, y) == value ||
+      this._getAt(grid, x, i) == value ||
+      this._getAt(grid, squareX + Math.floor(i % 3), squareY + Math.floor(i / 3)) == value) {
+      return false;
     }
+  }
 
-    return true;
+  return true;
 };
 
 /** @private */
 sudoku._getAt = function(grid, x, y)
 {
-    return grid[y * 9 + x];
+  return grid[y * 9 + x];
 };

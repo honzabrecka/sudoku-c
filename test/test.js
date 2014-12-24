@@ -37,6 +37,18 @@ describe('sudoku.solve()', function()
 	]);
     assert.equal(actual.join(','), expected.join(','));
   });
+  it('should throw error when no argument given', function()
+  {
+     assert.throws(function() { sudoku.solve(); });
+  });
+  it('should throw error when number given', function()
+  {
+     assert.throws(function() { sudoku.solve(5); });
+  });
+  it('should throw error when array with bad length given', function()
+  {
+     assert.throws(function() { sudoku.solve([1, 2]); });
+  });
 });
 
 describe('sudoku.generate()', function()
@@ -69,5 +81,21 @@ describe('sudoku.classic()', function()
     {
       return sum + (value == 0 ? 1 : 0);
     }, 0));
+  });
+  it('should throw error when no argument given', function()
+  {
+     assert.throws(function() { sudoku.classic(); });
+  });
+  it('should throw error when number as first arg given', function()
+  {
+     assert.throws(function() { sudoku.classic(5); });
+  });
+  it('should throw error when string as second arg given', function()
+  {
+     assert.throws(function() { sudoku.classic([], 'bad'); });
+  });
+  it('should throw error when array with bad length given', function()
+  {
+     assert.throws(function() { sudoku.classic([1, 2], 5); });
   });
 });

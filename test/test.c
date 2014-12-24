@@ -261,6 +261,7 @@ static char * all_tests()
   mu_run_test(test_fill);
   mu_run_test(test_sudoku_generate);
   mu_run_test(test_sudoku_solve);
+  mu_run_test(test_sudoku_classic);
 
   return 0;
 }

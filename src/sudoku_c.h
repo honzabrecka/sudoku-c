@@ -11,3 +11,4 @@
 
 int sudoku_generate(int * grid);
 int sudoku_solve(int * grid);
+int sudoku_classic(int * grid, int empty);

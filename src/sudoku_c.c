@@ -70,12 +70,12 @@ static void shuffle(int * array, int length)
   }
 }
 
-static void fill(int * array, int length)
+static void fill(int * array, int length, int start)
 {
   int i;
 
   for (i = 0; i < length; i++) {
-    array[i] = i + 1;
+    array[i] = start + i;
   }
 }
 
@@ -88,7 +88,7 @@ int sudoku_generate(int * grid)
     return 1;
   }
 
-  fill(values, N);
+  fill(values, N, 1);
   shuffle(values, N);
 
   for (i = 0; i < N; i++) {
@@ -131,4 +131,20 @@ int sudoku_solve(int * grid)
   }
 
   return 0;
+}
+
+int sudoku_classic(int * grid, int empty)
+{
+  int length = N * N;
+  int indicesToRemove[length];
+  int i;
+
+  fill(indicesToRemove, length, 0);
+  shuffle(indicesToRemove, length);
+
+  for (i = 0; i < empty; i++) {
+    grid[*(indicesToRemove + i)] = EMPTY;
+  }
+
+  return 1;
 }

@@ -48,3 +48,26 @@ describe('sudoku.generate()', function()
     assert.equal(-1, actual.indexOf(0));
   });
 });
+
+describe('sudoku.classic()', function()
+{
+  it('should remove random items from given grid', function()
+  {
+  	var grid = [
+	  4, 9, 2, 3, 6, 8, 1, 7, 5,
+	  8, 7, 6, 9, 5, 1, 2, 3, 4,
+	  3, 1, 5, 2, 7, 4, 6, 8, 9,
+	  9, 3, 4, 1, 2, 7, 8, 5, 6,
+	  2, 5, 7, 8, 3, 6, 9, 4, 1,
+	  1, 6, 8, 4, 9, 5, 3, 2, 7,
+	  5, 2, 1, 6, 4, 3, 7, 9, 8,
+	  7, 8, 3, 5, 1, 9, 4, 6, 2,
+	  6, 4, 9, 7, 8, 2, 5, 1, 3
+	];
+	var actual = sudoku.classic(grid, 5);
+    assert.equal(5, actual.reduce(function(sum, value)
+    {
+      return sum + (value == 0 ? 1 : 0);
+    }, 0));
+  });
+});

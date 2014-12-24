@@ -34,12 +34,26 @@ int assertNoEmpty(int * actual, int length)
   int i;
 
   for (i = 0; i < length; i++) {
-    if (*(actual + i) == 0) {
+    if (*(actual + i) == EMPTY) {
       return 0;
     }
   }
 
   return 1;
+}
+
+int assertEmptyCount(int * actual, int length)
+{
+  int count = 0;
+  int i;
+
+  for (i = 0; i < length; i++) {
+    if (*(actual + i) == EMPTY) {
+      count++;
+    }
+  }
+
+  return count;
 }
 
 int tests_run = 0;
@@ -59,6 +73,13 @@ static char * test_assertNoEmpty()
 {
   static int a[2] = {1, 5};
   mu_assert("e: test_assertNoEmpty", assertNoEmpty(a, 2));
+  return 0;
+}
+
+static char * test_assertEmptyCount()
+{
+  static int a[4] = {0, 2, 0, 2};
+  mu_assert("e: test_assertEmptyCount", assertEmptyCount(a, 2));
   return 0;
 }
 
@@ -159,7 +180,7 @@ static char * test_swap()
 static char * test_fill()
 {
   static int array[2];
-  fill(array, 2);
+  fill(array, 2, 1);
   mu_assert("e: test_fill", *array == 1 && *(array + 1) == 2);
   return 0;
 }
@@ -203,6 +224,25 @@ static char * test_sudoku_solve()
   return 0;
 }
 
+static char * test_sudoku_classic()
+{
+  static int actual[L] = {
+    4, 9, 2, 3, 6, 8, 1, 7, 5,
+    8, 7, 6, 9, 5, 1, 2, 3, 4,
+    3, 1, 5, 2, 7, 4, 6, 8, 9,
+    9, 3, 4, 1, 2, 7, 8, 5, 6,
+    2, 5, 7, 8, 3, 6, 9, 4, 1,
+    1, 6, 8, 4, 9, 5, 3, 2, 7,
+    5, 2, 1, 6, 4, 3, 7, 9, 8,
+    7, 8, 3, 5, 1, 9, 4, 6, 2,
+    6, 4, 9, 7, 8, 2, 5, 1, 3
+  };
+  int result = sudoku_classic(actual, 5);
+  int emptyCount = assertEmptyCount(actual, L);
+  mu_assert("e: test_sudoku_classic()", result && emptyCount == 5);
+  return 0;
+}
+
 //------------------
 // runner
 
@@ -210,6 +250,7 @@ static char * all_tests()
 {
   mu_run_test(test_assertDeepEqual);
   mu_run_test(test_assertNoEmpty);
+  mu_run_test(test_assertEmptyCount);
 
   mu_run_test(test_getAt);
   mu_run_test(test_findEmptyIndex);

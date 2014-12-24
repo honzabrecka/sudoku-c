@@ -10,7 +10,14 @@ As fast as possible sudoku solver and generator using the backtracking algorithm
 
 ```javascript
 var sudoku = require('sudoku-c');
+
+// generate random grid - an array of 81 (9x9) integers
 sudoku.generate();
+
+// replace random values with 0
+sudoku.classic(sudoku.generate(), 54);
+
+// solve given grid
 sudoku.solve([
   0, 0, 0, 0, 6, 0, 1, 7, 0,
   8, 0, 0, 9, 0, 0, 0, 0, 0,

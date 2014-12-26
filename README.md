@@ -14,7 +14,7 @@ var sudoku = require('sudoku-c');
 // generate random grid - an array of 81 (9x9) integers
 sudoku.generate();
 
-// replace random values with 0
+// replace 54 random values with 0
 sudoku.classic(sudoku.generate(), 54);
 
 // solve given grid

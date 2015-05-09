@@ -59,7 +59,7 @@ static int candidates(int * grid, int index)
   int boxX = x - (x % boxN);
   int boxY = y - (y % boxN);
   int i;
-  int counts[N + 1] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int counts[N + 1] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   int candidate = 0;
 
   for (i = 0; i < N; i++) {

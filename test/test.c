@@ -168,6 +168,40 @@ static char * test_isImpossible()
   return 0;
 }
 
+static char * test_twoPossibleCandidates()
+{
+  static int grid[L] = {
+    1, 2, 3, 0, 5, 0, 7, 8, 9,
+    0, 0, 0, 1, 2, 3, 0, 0, 0,
+    0, 0, 0, 7, 8, 9, 0, 0, 0,
+    0, 0, 0, 2, 0, 0, 0, 0, 0,
+    0, 0, 0, 3, 0, 0, 0, 0, 0,
+    0, 0, 0, 5, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 8, 0, 0, 0, 0, 0,
+    0, 0, 0, 9, 0, 0, 0, 0, 0
+  };
+  mu_assert("e: test_twoPossibleCandidates", candidates(grid, 3) == 0);
+  return 0;
+}
+
+static char * test_onePossibleCandidate()
+{
+  static int grid[L] = {
+    1, 2, 3, 0, 5, 0, 7, 8, 9,
+    0, 0, 0, 1, 2, 3, 0, 0, 0,
+    0, 0, 0, 7, 8, 9, 0, 0, 0,
+    0, 0, 0, 2, 0, 0, 0, 0, 0,
+    0, 0, 0, 3, 0, 0, 0, 0, 0,
+    0, 0, 0, 5, 0, 0, 0, 0, 0,
+    0, 0, 0, 6, 0, 0, 0, 0, 0,
+    0, 0, 0, 8, 0, 0, 0, 0, 0,
+    0, 0, 0, 9, 0, 0, 0, 0, 0
+  };
+  mu_assert("e: test_onePossibleCandidate", candidates(grid, 3) == 1 && *(grid + 3) == 4);
+  return 0;
+}
+
 static char * test_swap()
 {
   int a = 5;
@@ -257,6 +291,8 @@ static char * all_tests()
   mu_run_test(test_findEmptyIndexInSolvedGrid);
   mu_run_test(test_isPossible);
   mu_run_test(test_isImpossible);
+  mu_run_test(test_twoPossibleCandidates);
+  mu_run_test(test_onePossibleCandidate);
   mu_run_test(test_swap);
   mu_run_test(test_fill);
   mu_run_test(test_sudoku_generate);

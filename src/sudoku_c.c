@@ -51,6 +51,40 @@ static int isPossible(int * grid, int index, int value)
   return 1;
 }
 
+static int candidates(int * grid, int index)
+{
+  int boxN = N / 3;
+  int x = index % N;
+  int y = index / N;
+  int boxX = x - (x % boxN);
+  int boxY = y - (y % boxN);
+  int i;
+  int counts[N + 1] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int candidate = 0;
+
+  for (i = 0; i < N; i++) {
+    counts[getAt(grid, i, y)]++;
+    counts[getAt(grid, x, i)]++;
+    counts[getAt(grid, boxX + (int)(i % boxN), boxY + (int)(i / boxN))]++;
+  }
+
+  for (i = 1; i <= N; i++) {
+    if (*(counts + i) == 0) {
+      if (candidate > 0) {
+        return 0;
+      }
+      candidate = i;
+    }
+  }
+
+  if (candidate > 0) {
+    grid[index] = candidate;
+    return 1;
+  }
+
+  return 0;
+}
+
 static void swap(int * a, int * b)
 {
   int t = *a;
@@ -108,21 +142,47 @@ int sudoku_generate(int * grid)
   return 0;
 }
 
-int sudoku_solve(int * grid)
+static int solveWithConditions(int * grid)
+{
+  int empty = 0;
+  int change = 0;
+  int i;
+
+  for (i = 1; i <= N; i++) {
+    if (*(grid + i) == EMPTY) {
+      if (candidates(grid, i)) {
+        change = 1;
+      } else {
+        empty = 1;
+      }
+    }
+  }
+
+  if (empty) {
+    if (change) {
+      return solveWithConditions(grid);
+    } else {
+      return 0;
+    }
+  }
+
+  return 1;
+}
+
+static int solveWithBacktracking(int * grid)
 {
   int index = findEmptyIndex(grid);
-  int length = N + 1;
   int i;
 
   if (index == -1) {
     return 1;
   }
 
-  for (i = 1; i < length; i++) {
+  for (i = 1; i <= N; i++) {
     if (isPossible(grid, index, i)) {
       grid[index] = i;
       
-      if (sudoku_solve(grid)) {
+      if (solveWithBacktracking(grid)) {
         return 1;
       }
 
@@ -131,6 +191,14 @@ int sudoku_solve(int * grid)
   }
 
   return 0;
+}
+
+int sudoku_solve(int * grid)
+{
+  if (!solveWithConditions(grid)) {
+    return solveWithBacktracking(grid);
+  }
+  return 1;
 }
 
 int sudoku_classic(int * grid, int empty)

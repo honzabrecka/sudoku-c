@@ -77,12 +77,8 @@ static int candidates(int * grid, int index)
     }
   }
 
-  if (candidate > 0) {
-    grid[index] = candidate;
-    return 1;
-  }
-
-  return 0;
+  grid[index] = candidate;
+  return candidate > 0;
 }
 
 static void swap(int * a, int * b)

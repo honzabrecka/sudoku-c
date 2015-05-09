@@ -191,10 +191,7 @@ static int solveWithBacktracking(int * grid)
 
 int sudoku_solve(int * grid)
 {
-  if (!solveWithConditions(grid)) {
-    return solveWithBacktracking(grid);
-  }
-  return 1;
+  return solveWithConditions(grid) || solveWithBacktracking(grid);
 }
 
 int sudoku_classic(int * grid, int empty)

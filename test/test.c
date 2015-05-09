@@ -228,6 +228,23 @@ static char * test_sudoku_generate()
   return 0;
 }
 
+static char * test_sudoku_solveSolved()
+{
+  static int grid[L] = {
+    4, 9, 2, 3, 6, 8, 1, 7, 5,
+    8, 7, 6, 9, 5, 1, 2, 3, 4,
+    3, 1, 5, 2, 7, 4, 6, 8, 9,
+    9, 3, 4, 1, 2, 7, 8, 5, 6,
+    2, 5, 7, 8, 3, 6, 9, 4, 1,
+    1, 6, 8, 4, 9, 5, 3, 2, 7,
+    5, 2, 1, 6, 4, 3, 7, 9, 8,
+    7, 8, 3, 5, 1, 9, 4, 6, 2,
+    6, 4, 9, 7, 8, 2, 5, 1, 3
+  };
+  mu_assert("e: test_sudoku_solveSolved()", sudoku_solve(grid) == 1);
+  return 0;
+}
+
 static char * test_sudoku_solve()
 {
   static int actual[L] = {
@@ -296,6 +313,7 @@ static char * all_tests()
   mu_run_test(test_swap);
   mu_run_test(test_fill);
   mu_run_test(test_sudoku_generate);
+  mu_run_test(test_sudoku_solveSolved);
   mu_run_test(test_sudoku_solve);
   mu_run_test(test_sudoku_classic);
 

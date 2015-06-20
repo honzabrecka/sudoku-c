@@ -2,7 +2,7 @@
 
 As fast as possible sudoku solver and generator using the backtracking algorithm. It's a native node.js extension written in C.
 
-## Instalation
+## Installation
 
 	npm install sudoku-c
 

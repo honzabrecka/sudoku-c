@@ -1,6 +1,6 @@
 {
   "name": "sudoku-c",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "As fast as possible sudoku solver and generator using the backtracking algorithm. It's a native node.js extension written in C.",
   "author": "Jan Břečka <jan.brecka@gmail.com>",
   "license": "MIT",

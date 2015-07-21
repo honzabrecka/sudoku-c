@@ -92,7 +92,7 @@ static void shuffle(int * array, int length)
 {
   int i, r;
 
-  srand(time(NULL));
+  srand((unsigned int)time(NULL));
 
   for (i = length - 1; i > 0; i--) {
     r = rand() % (i + 1);
@@ -197,7 +197,7 @@ int sudoku_solve(int * grid)
 int sudoku_classic(int * grid, int empty)
 {
   int length = N * N;
-  int indicesToRemove[length];
+  int *indicesToRemove = (int *) malloc(length * sizeof(int));
   int i;
 
   fill(indicesToRemove, length, 0);
@@ -207,5 +207,6 @@ int sudoku_classic(int * grid, int empty)
     grid[*(indicesToRemove + i)] = EMPTY;
   }
 
+  free(indicesToRemove);
   return 1;
 }

@@ -15,28 +15,29 @@ extern "C" {
 
 using namespace v8;
 
-Handle<Value> Solve(const Arguments& args) {
-  HandleScope scope;
+void Solve(const FunctionCallbackInfo<Value>& args) {
+  Isolate* isolate = args.GetIsolate();
+  HandleScope scope(isolate);
 
   if (args.Length() < 1) {
-    ThrowException(Exception::TypeError(String::New("Wrong number of arguments.")));
-    return scope.Close(Undefined());
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong number of arguments.")));
+    return;
   }
 
   if (!args[0]->IsArray()) {
-    ThrowException(Exception::TypeError(String::New("Expected array.")));
-    return scope.Close(Undefined());
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Expected array.")));
+    return;
   }
 
-  Handle<Array> grid = Handle<Array>::Cast(args[0]);
+  Local<Array> grid = Local<Array>::Cast(args[0]);
   int gridLength = grid->Length();
 
   if (gridLength != N * N) {
-    ThrowException(Exception::TypeError(String::New("Wrong grid given - invalid length.")));
-    return scope.Close(Undefined());
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong grid given - invalid length.")));
+    return;
   }
 
-  int xgrid[gridLength];
+  int *xgrid = new int[gridLength];
   int i;
 
   for (i = 0; i < gridLength; i++) {
@@ -46,22 +47,25 @@ Handle<Value> Solve(const Arguments& args) {
   int result = sudoku_solve(xgrid);
 
   if (!result) {
-    ThrowException(Exception::TypeError(String::New("Invalid board given.")));
-    return scope.Close(Undefined());
+    delete[] xgrid;
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Invalid board given.")));
+    return;
   }
 
   for (i = 0; i < gridLength; i++) {
-    grid->Set(i, Uint32::New(*(xgrid + i)));
+    grid->Set(i, Uint32::New(isolate, *(xgrid + i)));
   }
 
-  return scope.Close(grid);
+  delete[] xgrid;
+  args.GetReturnValue().Set(grid);
 }
 
-Handle<Value> Generate(const Arguments& args) {
-  HandleScope scope;
+void Generate(const FunctionCallbackInfo<Value>& args) {
+  Isolate* isolate = args.GetIsolate();
+  HandleScope scope(isolate);
   int gridLength = N * N;
-  Local<Array> grid = Array::New(gridLength);
-  int xgrid[gridLength];
+  Local<Array> grid = Array::New(isolate, gridLength);
+  int *xgrid = new int[gridLength];
   int i;
 
   for (i = 0; i < gridLength; i++) {
@@ -71,39 +75,41 @@ Handle<Value> Generate(const Arguments& args) {
   sudoku_generate(xgrid);
 
   for (i = 0; i < gridLength; i++) {
-    grid->Set(i, Uint32::New(*(xgrid + i)));
+    grid->Set(i, Uint32::New(isolate, *(xgrid + i)));
   }
 
-  return scope.Close(grid);
+  delete[] xgrid;
+  args.GetReturnValue().Set(grid);
 }
 
-Handle<Value> Classic(const Arguments& args) {
-  HandleScope scope;
+void Classic(const FunctionCallbackInfo<Value>& args) {
+  Isolate* isolate = args.GetIsolate();
+  HandleScope scope(isolate);
 
   if (args.Length() < 2) {
-    ThrowException(Exception::TypeError(String::New("Wrong number of arguments.")));
-    return scope.Close(Undefined());
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong number of arguments.")));
+    return;
   }
 
   if (!args[0]->IsArray()) {
-    ThrowException(Exception::TypeError(String::New("Expected array.")));
-    return scope.Close(Undefined());
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Expected array.")));
+    return;
   }
 
   if (!args[1]->IsNumber()) {
-    ThrowException(Exception::TypeError(String::New("Expected number.")));
-    return scope.Close(Undefined());
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Expected number.")));
+    return;
   }
 
-  Handle<Array> grid = Handle<Array>::Cast(args[0]);
+  Local<Array> grid = Local<Array>::Cast(args[0]);
   int gridLength = grid->Length();
 
   if (gridLength != N * N) {
-    ThrowException(Exception::TypeError(String::New("Wrong grid given - invalid length.")));
-    return scope.Close(Undefined());
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong grid given - invalid length.")));
+    return;
   }
 
-  int xgrid[gridLength];
+  int *xgrid = new int[gridLength];
   int i;
 
   for (i = 0; i < gridLength; i++) {
@@ -113,10 +119,11 @@ Handle<Value> Classic(const Arguments& args) {
   sudoku_classic(xgrid, args[1]->Uint32Value());
 
   for (i = 0; i < gridLength; i++) {
-    grid->Set(i, Uint32::New(*(xgrid + i)));
+    grid->Set(i, Uint32::New(isolate, *(xgrid + i)));
   }
 
-  return scope.Close(grid);
+  delete[] xgrid;
+  args.GetReturnValue().Set(grid);
 }
 
 void init(Handle<Object> target) {

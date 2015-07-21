@@ -1,6 +1,6 @@
-language: node
+language: node_js
 node_js:
- - '0.10'
+ - "0.12"
 before_script:
  - sudo pip install cpp-coveralls
  - npm install -g node-gyp
